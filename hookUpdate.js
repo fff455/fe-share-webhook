@@ -22,8 +22,7 @@ const execAsync = async command => {
   })
 };
 
-const updateReadme = ({ files, folders, readmePath }) => {
-  // const readmeStr = fs.readFileSync(readmePath);
+const updateReadme = ({ files, folders }) => {
   const renderMap = {
     record: folders
       .map(({ name }) => `* [${name}](${REPO_HTTPS}/tree/master/${name})`)
@@ -51,7 +50,7 @@ ${title}
 ${modules}
 
 `;
-  console.log({ readmeContent })
+  return readmeContent;
 };
 
 const getFolderLevel1 = rootPath => {
@@ -115,7 +114,10 @@ const update = async msg => {
   const files = getFilesFromFolders(tempPath, folders.map(f => f.path))
     .map(file => ({ ...file, path: path.relative(tempPath, file.path) }));
   console.log('files: ', files);
-  updateReadme({ files, folders, readmePath: path.resolve(tempPath, 'README.md') });
+  const content = updateReadme({ files, folders });
+  fs.writeFileSync(path.resolve(tempPath, 'README.md'), content);
+  console.log(`Update finish.`);
+  await execAsync(`cd ${tempPath} && git pull && git add . && git commit -m "webhook: update README" && git push origin master`);
 };
 
 module.exports = async ctx => {
