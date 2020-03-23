@@ -1,25 +1,29 @@
 module.exports = {
   repo: {
-    title: 'fe-share'
+    title: "fe-share"
   },
-  modoles: ['record', 'member', 'content'],
+  modoles: ["record", "member", "content"],
   record: {
-    title: 'Record',
+    title: "Record"
   },
   member: {
-    title: 'Member',
+    title: "Member",
     members: [
       {
-        name: 'RedOvO',
-        url: 'https://github.com/RedOvO',
+        name: "RedOvO",
+        url: "https://github.com/RedOvO"
       },
       {
-        name: 'xiaobaiha',
-        url: 'https://github.com/xiaobaiha',
+        name: "xiaobaiha",
+        url: "https://github.com/xiaobaiha"
       },
-    ],
+      {
+        name: "wxyhhh",
+        url: "https://github.com/wxyhhh"
+      }
+    ]
   },
   content: {
-    title: 'New Content',
-  },
-}
+    title: "New Content"
+  }
+};
