@@ -9,7 +9,7 @@ const REPO_URL = "git@github.com:fff455/fe-share.git";
 const REPO_HTTPS = "https://github.com/fff455/fe-share";
 const TEMP_FOLDER = "temp_folder";
 
-const execAsync = async command => {
+const execAsync = async (command) => {
   return new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
@@ -25,7 +25,13 @@ const execAsync = async command => {
 const updateReadme = ({ files, folders }) => {
   const renderMap = {
     record: folders
-      .map(({ name }) => `* [${name}](${REPO_HTTPS}/tree/master/${name})`)
+      .map(
+        ({ name }) =>
+          `* [${name.replace(
+            / /g,
+            "_"
+          )}](${REPO_HTTPS}/tree/master/${name.replace(/ /g, "%20")})`
+      )
       .join("\n"),
     member: config.member.members
       .map(({ name, url }) => `* [${name}](${url})`)
@@ -41,11 +47,11 @@ const updateReadme = ({ files, folders }) => {
             modifiedTime
           ).format("YYYY-MM-DD")} update.`
       )
-      .join("\n")
+      .join("\n"),
   };
   const title = `# ${config.repo.title}`;
   const modules = config.modoles
-    .map(moduleKey => {
+    .map((moduleKey) => {
       const moduleConfig = config[moduleKey];
       return `<!-- ${moduleConfig.title.toUpperCase()}-START -->
 ## ${moduleConfig.title}
@@ -65,7 +71,7 @@ ${modules}
   return readmeContent;
 };
 
-const getFolderLevel1 = rootPath => {
+const getFolderLevel1 = (rootPath) => {
   const readDir = fs.readdirSync(rootPath);
   const excludeFolders = [".git"];
   return readDir.reduce((folders, p) => {
@@ -74,7 +80,7 @@ const getFolderLevel1 = rootPath => {
     if (stat.isDirectory() && !excludeFolders.includes(p)) {
       const directory = {
         name: p,
-        path: subPath
+        path: subPath,
       };
       return folders.concat(directory);
     }
@@ -85,7 +91,7 @@ const getFolderLevel1 = rootPath => {
 const getFilesFromFolders = (rootPath, folders) => {
   const docPostfix = [/\.md$/];
   return folders
-    .map(folder => {
+    .map((folder) => {
       const folderPath = path.resolve(rootPath, folder);
       const readDir = fs.readdirSync(folderPath);
       const { files, subFolders } = readDir.reduce(
@@ -95,12 +101,12 @@ const getFilesFromFolders = (rootPath, folders) => {
           if (stat.isDirectory()) {
             // directory
             return { files, subFolders: subFolders.concat(p) };
-          } else if (docPostfix.some(postfix => p.match(postfix))) {
+          } else if (docPostfix.some((postfix) => p.match(postfix))) {
             // file
             const file = {
               name: p,
               modifiedTime: stat.mtimeMs,
-              path: subFilePath
+              path: subFilePath,
             };
             return { files: files.concat(file), subFolders };
           } else {
@@ -119,7 +125,7 @@ const getFilesFromFolders = (rootPath, folders) => {
     .reduce((s, i) => s.concat(i), []);
 };
 
-const update = async msg => {
+const update = async (msg) => {
   const repoPath = path.resolve(__dirname, TEMP_FOLDER);
   const tempPath = path.resolve(repoPath, "fe-share");
   if (!fs.existsSync(repoPath)) {
@@ -133,8 +139,8 @@ const update = async msg => {
   console.log("folders: ", folders);
   const files = getFilesFromFolders(
     tempPath,
-    folders.map(f => f.path)
-  ).map(file => ({ ...file, path: path.relative(tempPath, file.path) }));
+    folders.map((f) => f.path)
+  ).map((file) => ({ ...file, path: path.relative(tempPath, file.path) }));
   console.log("files: ", files);
   const content = updateReadme({ files, folders });
   fs.writeFileSync(path.resolve(tempPath, "README.md"), content);
@@ -144,7 +150,7 @@ const update = async msg => {
   );
 };
 
-module.exports = async ctx => {
+module.exports = async (ctx) => {
   console.log("Begin update");
   try {
     const post = await parse(ctx.request);
@@ -152,13 +158,13 @@ module.exports = async ctx => {
     update();
     ctx.body = {
       code: 0,
-      message: "success"
+      message: "success",
     };
   } catch (err) {
     console.error("Error in update:", err);
     ctx.body = {
       code: 1,
-      message: err
+      message: err,
     };
   }
 };
