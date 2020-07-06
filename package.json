@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fff455/fe-share-webhook.git"
+    "url": "git+https://github.com/fff455/tech-share-webhook.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fff455/fe-share-webhook/issues"
+    "url": "https://github.com/fff455/tech-share-webhook/issues"
   },
-  "homepage": "https://github.com/fff455/fe-share-webhook#readme",
+  "homepage": "https://github.com/fff455/tech-share-webhook#readme",
   "dependencies": {
     "co-body": "^6.0.0",
     "koa": "^2.11.0",

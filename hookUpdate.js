@@ -5,8 +5,8 @@ const moment = require("moment");
 const { exec } = require("child_process");
 const config = require("./config");
 
-const REPO_URL = "git@github.com:fff455/fe-share.git";
-const REPO_HTTPS = "https://github.com/fff455/fe-share";
+const REPO_URL = "git@github.com:fff455/tech-share.git";
+const REPO_HTTPS = "https://github.com/fff455/tech-share";
 const TEMP_FOLDER = "temp_folder";
 
 const execAsync = async (command) => {
@@ -43,7 +43,7 @@ const updateReadme = ({ files, folders }) => {
       )
       .map(
         ({ name, path, modifiedTime }) =>
-          `* [${name}](https://github.com/fff455/fe-share/tree/master/${path}) ${moment(
+          `* [${name}](https://github.com/fff455/tech-share/tree/master/${path}) ${moment(
             modifiedTime
           ).format("YYYY-MM-DD")} update.`
       )
@@ -127,7 +127,7 @@ const getFilesFromFolders = (rootPath, folders) => {
 
 const update = async (msg) => {
   const repoPath = path.resolve(__dirname, TEMP_FOLDER);
-  const tempPath = path.resolve(repoPath, "fe-share");
+  const tempPath = path.resolve(repoPath, "tech-share");
   if (!fs.existsSync(repoPath)) {
     fs.mkdirSync(repoPath);
     await execAsync(`cd ${repoPath} && git clone ${REPO_URL}`);
