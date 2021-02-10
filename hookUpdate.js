@@ -134,7 +134,7 @@ const update = async (msg) => {
     // await execAsync(`doctoc ${docPath} --title '**${date} Trending ${timeSlice.replace(/^./, a => a.toUpperCase())}**'`);
     // console.log(`The file ${docPath} exists.`);
   }
-  await execAsync(`cd ${tempPath} && git pull`);
+  await execAsync(`cd ${tempPath} && git pull origin master`);
   const folders = getFolderLevel1(tempPath);
   console.log("folders: ", folders);
   const files = getFilesFromFolders(
@@ -146,7 +146,7 @@ const update = async (msg) => {
   fs.writeFileSync(path.resolve(tempPath, "README.md"), content);
   console.log(`Update finish.`);
   await execAsync(
-    `cd ${tempPath} && git pull && git add . && git commit -m "webhook: update README" && git push origin master`
+    `cd ${tempPath} && git pull origin master && git add . && git commit -m "webhook: update README" && git push origin master`
   );
 };
 
