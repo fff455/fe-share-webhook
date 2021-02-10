@@ -21,6 +21,14 @@ module.exports = {
         name: "wxyhhh",
         url: "https://github.com/wxyhhh",
       },
+      {
+        name: "trav",
+        url: "https://github.com/travmygit",
+      },
+      {
+        name: "cosunny",
+        url: "https://github.com/cosunny",
+      },
     ],
   },
   content: {
